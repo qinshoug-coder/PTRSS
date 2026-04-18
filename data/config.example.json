@@ -1,0 +1,136 @@
+{
+  "base": {
+    "timezone": "Asia/Shanghai",
+    "web_port": 7790,
+    "poll_seconds": 300,
+    "push_enabled": true
+  },
+  "telegram": {
+    "bot_token": "your-telegram-bot-token",
+    "chat_id": "your-telegram-chat-id",
+    "enabled": true
+  },
+  "sites": [
+    {
+      "name": "HDSky",
+      "base_url": "https://hdsky.me",
+      "rss_url": "https://hdsky.me/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": true
+    },
+    {
+      "name": "FRDS",
+      "base_url": "https://pt.keepfrds.com",
+      "rss_url": "https://pt.keepfrds.com/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": true
+    },
+    {
+      "name": "CMCT",
+      "base_url": "https://springsunday.net",
+      "rss_url": "https://springsunday.net/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": false
+    },
+    {
+      "name": "Aud",
+      "base_url": "https://audiences.me",
+      "rss_url": "https://audiences.me/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": false
+    },
+    {
+      "name": "CHD",
+      "base_url": "https://ptchdbits.co",
+      "rss_url": "https://ptchdbits.co/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": false
+    },
+    {
+      "name": "OurBits",
+      "base_url": "https://ourbits.club",
+      "rss_url": "https://ourbits.club/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": false
+    },
+    {
+      "name": "HDHome",
+      "base_url": "http://hdhome.org",
+      "rss_url": "http://hdhome.org/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": false,
+      "push_episodes": true
+    },
+    {
+      "name": "HHanClub",
+      "base_url": "https://hhanclub.net",
+      "rss_url": "https://hhanclub.net/your-rss-url",
+      "cookie": "your-site-cookie",
+      "enabled": true,
+      "push_episodes": false
+    }
+  ],
+  "downloaders": [
+    {
+      "name": "220+",
+      "type": "qbittorrent",
+      "url": "http://your-qb-host:8080/",
+      "username": "your-username",
+      "password": "your-password",
+      "category": "",
+      "tags": "",
+      "savepath": "",
+      "enabled": true
+    },
+    {
+      "name": "6400",
+      "type": "qbittorrent",
+      "url": "http://your-qb-host:8080/",
+      "username": "your-username",
+      "password": "your-password",
+      "category": "",
+      "tags": "",
+      "savepath": "",
+      "enabled": true
+    },
+    {
+      "name": "G222",
+      "type": "qbittorrent",
+      "url": "http://your-qb-host:8080/",
+      "username": "your-username",
+      "password": "your-password",
+      "category": "",
+      "tags": "",
+      "savepath": "",
+      "enabled": true
+    },
+    {
+      "name": "VPS5",
+      "type": "qbittorrent",
+      "url": "http://your-qb-host:8080/",
+      "username": "your-username",
+      "password": "your-password",
+      "category": "",
+      "tags": "",
+      "savepath": "",
+      "enabled": true
+    },
+    {
+      "name": "VPS6",
+      "type": "qbittorrent",
+      "url": "http://your-qb-host:8080/",
+      "username": "your-username",
+      "password": "your-password",
+      "category": "",
+      "tags": "",
+      "savepath": "",
+      "enabled": true
+    }
+  ]
+}

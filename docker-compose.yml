@@ -1,0 +1,15 @@
+services:
+  ptrss:
+    build: ./app
+    container_name: ptrss
+    ports:
+      - "${PTRSS_WEB_PORT:-7790}:7790"
+    volumes:
+      - ./data:/data
+    environment:
+      - TZ=${TZ:-Asia/Shanghai}
+      - PTRSS_WEB_PORT=${PTRSS_WEB_PORT:-7790}
+      - PTRSS_PUBLIC_BASE_URL=${PTRSS_PUBLIC_BASE_URL:-http://127.0.0.1:7790}
+      - PTRSS_WEB_USERNAME=${PTRSS_WEB_USERNAME:-admin}
+      - PTRSS_WEB_PASSWORD=${PTRSS_WEB_PASSWORD:-change-me}
+    restart: unless-stopped

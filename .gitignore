@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+!.env.example
+data/*
+!data/.gitkeep
+!data/.gitignore
+!data/config.example.json
