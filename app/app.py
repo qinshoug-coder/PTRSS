@@ -1754,7 +1754,7 @@ def build_poll_summary_message(trigger, per_site, total_fetched, total_new, tota
     }.get(trigger, '轮询完成')
 
     if total_errors <= 0:
-        return trigger_name
+        return ''
 
     details = []
     for item in per_site:
@@ -1997,9 +1997,9 @@ def handle_message(msg):
         send_control_panel(chat_id, '已关闭 PTRSS TG 推送。', with_keyboard=False)
         return
     if cmd in ('/ptrss_poll', '/rsspoll'):
-        tg_api('sendMessage', chat_id=chat_id, text='开始轮询，跑完告诉你结果。')
         summary = run_poll_cycle(trigger='manual-tg')
-        send_control_panel(chat_id, summary, with_keyboard=False)
+        if summary:
+            send_control_panel(chat_id, summary, with_keyboard=False)
         return
     if cmd in ('/ptrss_help', '/rsshelp'):
         tg_api('sendMessage', chat_id=chat_id, text='可用命令：/rss /rsspoll /rsson /rssoff /rsshelp')
@@ -2038,9 +2038,9 @@ def handle_callback_query(cb):
         return
     if action == 'ptrss_run_poll':
         answer_callback(callback_id, '开始轮询', show_alert=False)
-        tg_api('sendMessage', chat_id=chat_id, text='开始轮询，跑完告诉你结果。')
         summary = run_poll_cycle(trigger='manual-tg')
-        send_control_panel(chat_id, summary, with_keyboard=False)
+        if summary:
+            send_control_panel(chat_id, summary, with_keyboard=False)
         return
     if action == 'pick' and len(parts) >= 2:
         detail_id = parts[1]
@@ -2315,15 +2315,18 @@ def run_poll_cycle(trigger='manual'):
 
         state['meta']['last_poll_at'] = now_text()
         summary_text = build_poll_summary_message(trigger, per_site, total_fetched, total_new, total_skipped_episode_notify, total_errors)
-        state['meta']['last_poll_summary'] = summary_text
+        state['meta']['last_poll_summary'] = summary_text or '无异常'
         save_state(state)
-        log('poll cycle done', trigger, f'total_new={total_new}', summary_text)
-        result = send_telegram_message(cfg, summary_text)
-        if result['ok']:
-            log('poll summary telegram sent', trigger, f'fetched={total_fetched}', f'new={total_new}', f'skipped_episode={total_skipped_episode_notify}', f'errors={total_errors}')
+        log('poll cycle done', trigger, f'total_new={total_new}', summary_text or 'no errors')
+        if summary_text:
+            result = send_telegram_message(cfg, summary_text)
+            if result['ok']:
+                log('poll summary telegram sent', trigger, f'fetched={total_fetched}', f'new={total_new}', f'skipped_episode={total_skipped_episode_notify}', f'errors={total_errors}')
+            else:
+                log('poll summary telegram failed', trigger, result['message'])
         else:
-            log('poll summary telegram failed', trigger, result['message'])
-        return state['meta']['last_poll_summary']
+            log('poll summary telegram skipped', trigger, f'fetched={total_fetched}', f'new={total_new}', f'skipped_episode={total_skipped_episode_notify}', 'errors=0')
+        return summary_text
     finally:
         poll_lock.release()
 
@@ -2547,7 +2550,9 @@ def save_base():
 @app.post('/run-poll')
 def run_poll():
     summary = run_poll_cycle(trigger='manual-web')
-    return redirect(url_for('config_page', msg=f'轮询完成：{summary}'))
+    if summary:
+        return redirect(url_for('config_page', msg=summary))
+    return redirect(url_for('config_page'))
 
 
 @app.post('/save-telegram')
